@@ -2248,12 +2248,12 @@ main {
   --border: #d8d6d0; --text: #1a1916; --text2: #6b6760; --text3: #9e9a90;
 }
 [data-theme="light"] body { background: #f5f4f0; color: #1a1916; }
-[data-theme="light"] nav { background: #ffffff; border-bottom-color: #d8d6d0; }
+[data-theme="light"] nav { border-bottom-color: #d8d6d0; }
 [data-theme="light"] .nav-logo h2 { color: #1a1916; }
 [data-theme="light"] .nav-link { color: #6b6760; }
 [data-theme="light"] .nav-link:hover { color: #1a1916; background: #eeede9; }
 [data-theme="light"] .nav-link.active { color: var(--accent); background: #f0ede5; }
-[data-theme="light"] .mobile-menu { background: #ffffff; border-bottom-color: #d8d6d0; }
+[data-theme="light"] .mobile-menu { border-bottom-color: #d8d6d0; }
 [data-theme="light"] .mobile-nav-link { color: #6b6760; }
 [data-theme="light"] .mobile-nav-link:hover { background: #eeede9; color: #1a1916; }
 [data-theme="light"] .hamburger { border-color: #d8d6d0; }
