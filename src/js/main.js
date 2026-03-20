@@ -1805,7 +1805,12 @@ window.toggleMemberRole = async function (uid, currentlyMember) {
 // =============================================
 async function loadGames() {
   const c = document.getElementById('games-container');
-  c.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  c.innerHTML = `
+    <div class="game-card skeleton"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:70%"></div><div class="skeleton skeleton-text" style="width:40%"></div></div></div>
+    <div class="game-card skeleton"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:80%"></div><div class="skeleton skeleton-text" style="width:50%"></div></div></div>
+    <div class="game-card skeleton"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:60%"></div><div class="skeleton skeleton-text" style="width:30%"></div></div></div>
+    <div class="game-card skeleton desktop-only"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:90%"></div><div class="skeleton skeleton-text" style="width:60%"></div></div></div>
+  `;
   const snap    = await getDocs(collection(db, 'games'));
   const isAdmin = currentUserData?.isAdmin || currentUser?.email === SUPER_ADMIN;
   if (snap.empty) {
@@ -2145,7 +2150,11 @@ window.adminAddGame = async function () {
 // =============================================
 function startSessionsListener() {
   const container = document.getElementById('sessions-container');
-  container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  container.innerHTML = `
+    <div class="session-card skeleton"><div style="flex:1"><div class="skeleton skeleton-text" style="width:40%"></div><div class="skeleton skeleton-text" style="width:25%; height:12px"></div></div></div>
+    <div class="session-card skeleton"><div style="flex:1"><div class="skeleton skeleton-text" style="width:50%"></div><div class="skeleton skeleton-text" style="width:30%; height:12px"></div></div></div>
+    <div class="session-card skeleton"><div style="flex:1"><div class="skeleton skeleton-text" style="width:35%"></div><div class="skeleton skeleton-text" style="width:20%; height:12px"></div></div></div>
+  `;
 
   // Cancel any previous listener
   if (unsubSessions) { unsubSessions(); unsubSessions = null; }
@@ -2488,7 +2497,10 @@ async function loadTablon() {
     header.appendChild(btn);
   }
 
-  c.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  c.innerHTML = `
+    <div class="session-card skeleton" style="flex-direction:column;gap:8px;margin-bottom:14px"><div class="skeleton skeleton-text" style="width:60%"></div><div class="skeleton skeleton-text" style="width:100%;height:40px"></div></div>
+    <div class="session-card skeleton" style="flex-direction:column;gap:8px;margin-bottom:14px"><div class="skeleton skeleton-text" style="width:70%"></div><div class="skeleton skeleton-text" style="width:100%;height:40px"></div></div>
+  `;
 
   try {
     const q    = query(collection(db, 'anuncios'), orderBy('createdAt', 'desc'));
@@ -2897,7 +2909,11 @@ window.switchRankingTab = function(tab) {
 
 async function loadRanking() {
   const c = document.getElementById('ranking-container');
-  c.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  c.innerHTML = `
+    <div class="session-card skeleton" style="margin-bottom:12px"><div class="skeleton skeleton-text" style="width:40%"></div></div>
+    <div class="session-card skeleton" style="margin-bottom:12px"><div class="skeleton skeleton-text" style="width:50%"></div></div>
+    <div class="session-card skeleton" style="margin-bottom:12px"><div class="skeleton skeleton-text" style="width:30%"></div></div>
+  `;
   try {
     if (currentRankingTab === 'players') await loadPlayersRanking(c);
     else                                  await loadGamesRanking(c);
