@@ -519,16 +519,16 @@ import {
 
 // ===== CONFIG =====
 const firebaseConfig = {
-  apiKey: "AIzaSyAucJQiAhNH-92j-BJrlH75aRxKz_G0Zf8",
-  authDomain: "ludoforta.firebaseapp.com",
-  projectId: "ludoforta",
-  storageBucket: "ludoforta.firebasestorage.app",
-  messagingSenderId: "216332353339",
-  appId: "1:216332353339:web:6fab554bb01f058cbe011e"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
-const CLOUDINARY_CLOUD  = 'dfpvgavtk';
-const CLOUDINARY_PRESET = 'ludoforta_uploads';
-const SUPER_ADMIN       = 'yuiopilyas@gmail.com';
+const CLOUDINARY_CLOUD  = import.meta.env.VITE_CLOUDINARY_CLOUD;
+const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET;
+const SUPER_ADMIN       = import.meta.env.VITE_SUPER_ADMIN;
 
 const fireApp        = initializeApp(firebaseConfig);
 const auth           = getAuth(fireApp);
