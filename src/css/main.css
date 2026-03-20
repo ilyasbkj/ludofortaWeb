@@ -1628,6 +1628,8 @@ main {
   width: 100%;
   border-bottom: 5px solid var(--accent);
   overflow: hidden;
+  margin-top: calc(-1 * var(--nav-h));
+  padding-top: var(--nav-h);
 }
 .home-hero-bg {
   position: absolute;
