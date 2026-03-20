@@ -219,9 +219,9 @@ nav {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: color-mix(in srgb, var(--surface) 75%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: color-mix(in srgb, var(--surface) 50%, transparent);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
   padding: 0 20px;
@@ -454,9 +454,9 @@ nav {
   position: fixed;
   top: var(--nav-h);
   left: 0; right: 0;
-  background: color-mix(in srgb, var(--surface) 85%, transparent);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: color-mix(in srgb, var(--surface) 65%, transparent);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   z-index: 190;
