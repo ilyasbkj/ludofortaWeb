@@ -283,11 +283,11 @@ nav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px; height: 30px; min-width: 30px;
-  border-radius: 5px;
-  background: transparent;
-  border: 1px solid #333;
-  color: #b3b3b3;
+  width: 32px; height: 32px; min-width: 32px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border);
+  color: var(--text2);
   text-decoration: none;
   flex-shrink: 0;
   transform: translateX(-8px);
