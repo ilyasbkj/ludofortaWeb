@@ -54,13 +54,13 @@
       var theme = localStorage.getItem('ludoforta_theme') || 'light';
       if (theme === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
-        document.documentElement.style.setProperty('--bg','#f5f4f0');
+        document.documentElement.style.setProperty('--bg','#fcfafa');
         document.documentElement.style.setProperty('--surface','#ffffff');
-        document.documentElement.style.setProperty('--surface2','#eeede9');
-        document.documentElement.style.setProperty('--border','#d8d6d0');
-        document.documentElement.style.setProperty('--text','#1a1916');
-        document.documentElement.style.setProperty('--text2','#6b6760');
-        document.documentElement.style.setProperty('--text3','#9e9a90');
+        document.documentElement.style.setProperty('--surface2','#f3f2ee');
+        document.documentElement.style.setProperty('--border','#e6e4dc');
+        document.documentElement.style.setProperty('--text','#1a1b1e');
+        document.documentElement.style.setProperty('--text2','#636773');
+        document.documentElement.style.setProperty('--text3','#949aadd');
       }
       var accent = localStorage.getItem('ludoforta_accent');
       if (accent) {
@@ -314,28 +314,28 @@
       <!-- ══ INFO CARDS ══ -->
       <div class="home-cards-grid">
         <div class="home-card" id="home-card-que-som" onclick="openInfoCard('que-som')">
-          <div class="home-card-img" id="card-img-que-som"><span>🎲</span></div>
+          <div class="home-card-img" id="card-img-que-som"><span><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span></div>
           <div class="home-card-body">
             <h3 data-i18n="card_que_som">Què som?</h3>
             <p class="home-card-text" id="card-text-que-som" data-i18n="card_que_som_sub">Som un grup d'apassionats pels jocs de taula que neix de l'Institut Torreforta.</p>
           </div>
         </div>
         <div class="home-card" id="home-card-que-fem" onclick="openInfoCard('que-fem')">
-          <div class="home-card-img" id="card-img-que-fem"><span>🎯</span></div>
+          <div class="home-card-img" id="card-img-que-fem"><span><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span></div>
           <div class="home-card-body">
             <h3 data-i18n="card_que_fem">Què fem?</h3>
             <p class="home-card-text" id="card-text-que-fem" data-i18n="card_que_fem_sub">Ens reunim setmanalment per jugar, ensenyar noves mecàniques i col·laborar amb festivals.</p>
           </div>
         </div>
         <div class="home-card" id="home-card-on-participem" onclick="openInfoCard('on-participem')">
-          <div class="home-card-img" id="card-img-on-participem"><span>📍</span></div>
+          <div class="home-card-img" id="card-img-on-participem"><span><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span></div>
           <div class="home-card-body">
             <h3 data-i18n="card_on_participem">Quan i On?</h3>
             <p class="home-card-text" id="card-text-on-participem" data-i18n="card_on_participem_sub">Tots els dijous a les 17:00h al local de l'Institut.</p>
           </div>
         </div>
         <div class="home-card" id="home-card-historia" onclick="openInfoCard('historia')">
-          <div class="home-card-img" id="card-img-historia"><span>📖</span></div>
+          <div class="home-card-img" id="card-img-historia"><span><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span></div>
           <div class="home-card-body">
             <h3 data-i18n="card_historia">La nostra història</h3>
             <p class="home-card-text" id="card-text-historia" data-i18n="card_historia_sub">Descobreix com va néixer Ludoforta i el camí recorregut.</p>
@@ -378,7 +378,10 @@
         <p data-i18n="games_subtitle">Todos los juegos disponibles en Ludoforta</p>
       </div>
       <div id="games-container" class="games-grid">
-        <div class="loading"><div class="spinner"></div></div>
+        <div class="game-card skeleton"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:70%"></div><div class="skeleton skeleton-text" style="width:40%"></div></div></div>
+        <div class="game-card skeleton"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:80%"></div><div class="skeleton skeleton-text" style="width:50%"></div></div></div>
+        <div class="game-card skeleton"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:60%"></div><div class="skeleton skeleton-text" style="width:30%"></div></div></div>
+        <div class="game-card skeleton desktop-only"><div class="game-card-img skeleton-img"></div><div class="game-card-body"><div class="skeleton skeleton-text" style="width:90%"></div><div class="skeleton skeleton-text" style="width:60%"></div></div></div>
       </div>
     </div>
 
@@ -392,7 +395,9 @@
         <button class="btn btn-primary btn-sm new-session-btn" onclick="openCreateSession()" data-i18n="btn_nueva_partida">+ Nueva partida</button>
       </div>
       <div id="sessions-container" class="sessions-list">
-        <div class="loading"><div class="spinner"></div></div>
+        <div class="session-card skeleton"><div style="flex:1"><div class="skeleton skeleton-text" style="width:40%"></div><div class="skeleton skeleton-text" style="width:25%; height:12px"></div></div></div>
+        <div class="session-card skeleton"><div style="flex:1"><div class="skeleton skeleton-text" style="width:50%"></div><div class="skeleton skeleton-text" style="width:30%; height:12px"></div></div></div>
+        <div class="session-card skeleton"><div style="flex:1"><div class="skeleton skeleton-text" style="width:35%"></div><div class="skeleton skeleton-text" style="width:20%; height:12px"></div></div></div>
       </div>
     </div>
 
@@ -407,7 +412,9 @@
         <button class="ranking-tab" id="rtab-games" onclick="switchRankingTab('games')"><span data-i18n="ranking_tab_games">Juegos</span></button>
       </div>
       <div id="ranking-container">
-        <div class="loading"><div class="spinner"></div></div>
+        <div class="session-card skeleton" style="margin-bottom:12px"><div class="skeleton skeleton-text" style="width:40%"></div></div>
+        <div class="session-card skeleton" style="margin-bottom:12px"><div class="skeleton skeleton-text" style="width:50%"></div></div>
+        <div class="session-card skeleton" style="margin-bottom:12px"><div class="skeleton skeleton-text" style="width:30%"></div></div>
       </div>
     </div>
     <!-- ── TABLÓN ── -->
@@ -417,7 +424,8 @@
         <p data-i18n="tablon_subtitle">Noticias y comunicados de Ludoforta</p>
       </div>
       <div id="tablon-container" class="tablon-list">
-        <div class="loading"><div class="spinner"></div></div>
+        <div class="session-card skeleton" style="flex-direction:column;gap:8px;margin-bottom:14px"><div class="skeleton skeleton-text" style="width:60%"></div><div class="skeleton skeleton-text" style="width:100%;height:40px"></div></div>
+        <div class="session-card skeleton" style="flex-direction:column;gap:8px;margin-bottom:14px"><div class="skeleton skeleton-text" style="width:70%"></div><div class="skeleton skeleton-text" style="width:100%;height:40px"></div></div>
       </div>
     </div>
 
