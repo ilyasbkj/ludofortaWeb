@@ -2320,8 +2320,7 @@ main {
 [data-theme="light"] .page-header h2 { color: #1a1916; }
 [data-theme="light"] .page-header p { color: #6b6760; }
 [data-theme="light"] .empty-state h3 { color: #6b6760; }
-[data-theme="light"] .social-icon { border-color: #d8d6d0; color: #6b6760; background: #f5f4f0; }
-[data-theme="light"] .social-icon:hover { color: var(--accent); border-color: var(--accent); }
+
 [data-theme="light"] .nav-logo-icon { background: var(--accent); }
 [data-theme="light"] .nav-avatar { background: var(--accent); color: var(--accent-text, #121212); }
 [data-theme="light"] .admin-badge { background: #c45c2e; }
