@@ -1,0 +1,15 @@
+/*
+  Cache-Control: no-cache, must-revalidate
+
+/*.js
+  Cache-Control: no-cache, must-revalidate
+
+/*.css
+  Cache-Control: no-cache, must-revalidate
+
+/sitemap.xml
+  Content-Type: application/xml
+  X-Content-Type-Options: nosniff
+
+/robots.txt
+  Content-Type: text/plain

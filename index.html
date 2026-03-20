@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ── SEO básico ── -->
+  <title>Ludoforta — Vols jugar? Jo t'ho explico</title>
+  <meta name="description" content="Projecte educatiu de l'Institut Torreforta que utilitza els jocs de taula per fomentar la cohesió social, l'aprenentatge competencial i l'ús del català al barri.">
+  <meta name="keywords" content="Ludoforta, ludoteca, juegos de mesa, partidas, board games, comunidad">
+  <meta name="author" content="Ludoforta">
+  <meta name="robots" content="index, follow">
+  <meta name="google-site-verification" content="LhtMXWZH8wTuy5SmG8Y40J6SZqdhCGzcddMdLnOPvew">
+  <link rel="canonical" href="https://ludoforta.pages.dev/">
+
+  <!-- ── Open Graph (para redes sociales y Google) ── -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://ludoforta.pages.dev/">
+  <meta property="og:title"       content="Ludoforta — Vols jugar? Jo t'ho explico">
+  <meta property="og:description" content="Projecte educatiu de l'Institut Torreforta que utilitza els jocs de taula per fomentar la cohesió social, l'aprenentatge competencial i l'ús del català al barri.">
+  <meta property="og:image" content="https://res.cloudinary.com/dfpvgavtk/image/upload/v1772211069/zgfwpmob9eikz3qzpt1q.png">
+  <meta property="og:locale"      content="es_ES">
+  <meta property="og:locale:alternate" content="ca_ES">
+
+  <!-- ── Twitter Card ── -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Ludoforta — Vols jugar? Jo t'ho explico">
+  <meta name="twitter:description" content="Projecte educatiu de l'Institut Torreforta que utilitza els jocs de taula per fomentar la cohesió social, l'aprenentatge competencial i l'ús del català al barri.">
+  <meta name="twitter:image" content="https://res.cloudinary.com/dfpvgavtk/image/upload/v1772211069/zgfwpmob9eikz3qzpt1q.png">
+
+  <!-- ── Structured Data (JSON-LD para Google) ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Ludoforta",
+    "description": "Plataforma digital de ludoteca para gestionar juegos de mesa, organizar partidas y conectar jugadores.",
+    "url": "https://ludoforta.pages.dev/",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "inLanguage": ["es", "ca"],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    }
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&family=Fraunces:ital,opsz,wght@0,9..144,900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260317d">
+  <script>
+    (function() {
+      var theme = localStorage.getItem('ludoforta_theme') || 'dark';
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.documentElement.style.setProperty('--bg','#f5f4f0');
+        document.documentElement.style.setProperty('--surface','#ffffff');
+        document.documentElement.style.setProperty('--surface2','#eeede9');
+        document.documentElement.style.setProperty('--border','#d8d6d0');
+        document.documentElement.style.setProperty('--text','#1a1916');
+        document.documentElement.style.setProperty('--text2','#6b6760');
+        document.documentElement.style.setProperty('--text3','#9e9a90');
+      }
+      var accent = localStorage.getItem('ludoforta_accent');
+      if (accent) {
+        document.documentElement.style.setProperty('--accent', accent);
+        try {
+          var hex = accent.length === 4
+            ? '#'+accent[1]+accent[1]+accent[2]+accent[2]+accent[3]+accent[3]
+            : accent;
+          var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+          var lum = (0.299*r + 0.587*g + 0.114*b) / 255;
+          document.documentElement.style.setProperty('--accent-text', lum > 0.5 ? '#121212' : '#ffffff');
+        } catch(e) {}
+        // Colors from cache — mark body as ready right now, no waiting
+        document.documentElement.classList.add('colors-ready');
+      }
+    })();
+  </script>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dfpvgavtk/image/upload/v1772211069/zgfwpmob9eikz3qzpt1q.png">
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/dfpvgavtk/image/upload/v1772211069/zgfwpmob9eikz3qzpt1q.png">
+  <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ========== AUTH MODAL (overlay encima del app) ========== -->
+<div id="auth-screen" class="auth-modal-overlay">
+  <div class="auth-card">
+    <button class="auth-close-btn" onclick="closeAuthModal()" aria-label="Cerrar">✕</button>
+    <div class="auth-logo">
+      <div class="auth-logo-icon" id="auth-logo-icon">🎲</div>
+      <h1>Ludoforta</h1>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="showAuthTab('login')" data-i18n="auth_login">Iniciar sesión</button>
+      <button class="auth-tab" onclick="showAuthTab('register')" data-i18n="auth_register">Registrarse</button>
+    </div>
+    <!-- LOGIN -->
+    <div id="login-form">
+      <div class="form-group">
+        <label data-i18n="label_email">Correo electrónico</label>
+        <input type="email" id="login-email" placeholder="tu@correo.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label data-i18n="label_password">Contraseña</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div id="login-error" class="error-msg"></div>
+      <button class="btn btn-primary" style="margin-top:8px" onclick="loginEmail()" data-i18n="btn_entrar">Entrar</button>
+      <div class="divider" data-i18n="divider_o">o</div>
+      <button class="btn-google" onclick="loginGoogle()">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span data-i18n="btn_google">Continuar con Google</span>
+      </button>
+    </div>
+    <!-- REGISTER -->
+    <div id="register-form" style="display:none">
+      <div class="form-group">
+        <label data-i18n="label_email">Correo electrónico</label>
+        <input type="email" id="reg-email" placeholder="tu@correo.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label data-i18n="label_password">Contraseña</label>
+        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+      </div>
+      <div id="reg-error" class="error-msg"></div>
+      <button class="btn btn-primary" style="margin-top:8px" onclick="registerEmail()" data-i18n="btn_continuar">Continuar →</button>
+      <div class="divider" data-i18n="divider_o">o</div>
+      <button class="btn-google" onclick="loginGoogle()">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span data-i18n="btn_google">Continuar con Google</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP SCREEN ========== -->
+<div id="app-screen" class="screen active">
+
+  <nav>
+    <div class="nav-logo" onclick="if(document.getElementById('section-home')?.classList.contains('active')){return;}showSection('home')" id="nav-logo-home" style="cursor:pointer">
+      <div class="nav-logo-icon" id="nav-logo-icon">🎲</div>
+      <h2 id="nav-logo-text-static" class="nav-logo-text-static">Ludoforta</h2>
+      <!-- Social icons — inline junto al logo, solo en home -->
+      <div class="nav-social-icons" id="nav-social-icons">
+        <a id="social-tiktok"    href="#" target="_blank" class="social-icon" aria-label="TikTok" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        </a>
+        <a id="social-instagram" href="#" target="_blank" class="social-icon" aria-label="Instagram" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a id="social-youtube"   href="#" target="_blank" class="social-icon" aria-label="YouTube" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a id="social-x"         href="#" target="_blank" class="social-icon" aria-label="X" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.849L1.254 2.25H8.08l4.258 5.626 5.906-5.626zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link active" id="nav-games"      onclick="showSection('games')">
+        <span id="icon-nav-games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></span>
+        <span data-i18n="nav_games">Juegos</span>
+      </button>
+      <button class="nav-link" id="nav-sessions" onclick="showSection('sessions')">
+        <span id="icon-nav-sessions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+        <span data-i18n="nav_sessions">Partidas</span>
+      </button>
+      <button class="nav-link" id="nav-community" onclick="showSection('community')">
+        <span id="icon-nav-community"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg></span>
+        <span data-i18n="nav_ranking">Ranking</span>
+      </button>
+      <button class="nav-link" id="nav-tablon" onclick="showSection('tablon')">
+        <span id="icon-nav-tablon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+        <span data-i18n="nav_tablon">Tablón</span>
+      </button>
+      <button class="nav-link" id="nav-profile" onclick="showSection('profile')">
+        <span id="icon-nav-profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span data-i18n="nav_profile">Perfil</span>
+      </button>
+      <button class="nav-link" id="nav-admin" onclick="showSection('admin')" style="display:none">
+        <span id="icon-nav-admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+        <span data-i18n="nav_admin">Admin</span>
+      </button>
+    </div>
+    <div class="nav-right">
+      <div id="user-admin-badge" class="admin-badge" style="display:none">Admin</div>
+      <div id="nav-user-avatar" class="nav-avatar" onclick="showSection('profile')" style="display:none" title="Perfil"></div>
+      <!-- Settings dropdown -->
+      <div class="settings-wrap" id="settings-wrap">
+        <button class="settings-btn" id="settings-btn" onclick="toggleSettingsMenu()" aria-label="Ajustes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+        <div class="settings-menu" id="settings-menu">
+          <div class="settings-section-label" data-i18n="settings_lang">Idioma</div>
+          <div class="settings-row">
+            <button class="settings-lang-btn" id="slang-es" onclick="setLang('es');closeSettingsMenu()">ES</button>
+            <button class="settings-lang-btn" id="slang-ca" onclick="setLang('ca');closeSettingsMenu()">CA</button>
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-section-label" data-i18n="settings_theme">Tema</div>
+          <div class="settings-row">
+            <button class="settings-theme-btn" id="theme-dark"  onclick="setTheme('dark')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <span data-i18n="settings_dark">Oscuro</span>
+            </button>
+            <button class="settings-theme-btn" id="theme-light" onclick="setTheme('light')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              <span data-i18n="settings_light">Claro</span>
+            </button>
+          </div>
+          <div class="settings-divider" id="settings-logout-divider" style="display:none"></div>
+          <button class="settings-logout-btn" id="settings-logout-btn" onclick="logout();closeSettingsMenu()" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span data-i18n="settings_logout">Cerrar sesión</span>
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-primary btn-login-nav desktop-only" onclick="showScreen('auth-screen')" data-i18n="auth_login">Iniciar sesión</button>
+      <button class="hamburger" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <!-- Texto "Ludoforta" que vuela entre nav y hero -->
+  <span id="brand-flying" class="brand-flying" style="display:none">Ludoforta</span>
+
+  <!-- Mobile slide-down menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-nav-link" onclick="showSection('games');closeMobileMenu()">
+      <span id="icon-mob-games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></span>
+      <span data-i18n="nav_games">Juegos</span>
+    </button>
+    <button class="mobile-nav-link" id="mobile-nav-sessions" onclick="showSection('sessions');closeMobileMenu()" style="display:none">
+      <span id="icon-mob-sessions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+      <span data-i18n="nav_sessions">Partidas</span>
+    </button>
+    <button class="mobile-nav-link" onclick="showSection('community');closeMobileMenu()">
+      <span id="icon-mob-community"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg></span>
+      <span data-i18n="nav_ranking">Ranking</span>
+    </button>
+    <button class="mobile-nav-link" id="mobile-nav-tablon" onclick="showSection('tablon');closeMobileMenu()" style="display:none">
+      <span id="icon-mob-tablon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+      <span data-i18n="nav_tablon">Tablón</span>
+    </button>
+    <button class="mobile-nav-link" id="mobile-nav-profile" onclick="showSection('profile');closeMobileMenu()" style="display:none">
+      <span id="icon-mob-profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+      <span data-i18n="nav_profile">Perfil</span>
+    </button>
+    <button class="mobile-nav-link" id="mobile-nav-admin" onclick="showSection('admin');closeMobileMenu()" style="display:none">
+      <span id="icon-mob-admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+      <span data-i18n="nav_admin">Admin</span>
+    </button>
+    <div class="mobile-menu-sep"></div>
+    <button class="mobile-nav-link btn-login-nav" onclick="showScreen('auth-screen');closeMobileMenu()">🔑 <span data-i18n="auth_login">Iniciar sesión</span></button>
+    <button class="mobile-nav-link mobile-logout btn-logout" onclick="logout()" style="display:none"><span id="icon-mob-logout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> <span data-i18n="btn_cerrar_sesion">Cerrar sesión</span></button>
+  </div>
+  <div class="mobile-overlay" id="mobile-overlay" onclick="closeMobileMenu()"></div>
+
+  <main>
+
+    <!-- ── HOME ── -->
+    <div class="section-page active" id="section-home">
+
+      <!-- ══ HERO ══ -->
+      <div class="home-hero" id="home-hero">
+        <div class="home-hero-bg" id="home-hero-bg"></div>
+        <div class="home-hero-overlay"></div>
+        <div class="home-hero-content">
+          <p class="home-hero-eyebrow" data-i18n="home_welcome">BENVINGUTS A LUDOFORTA</p>
+          <h1 class="home-hero-headline">
+            <span class="home-hero-line1" id="home-hero-line1"></span>
+            <span class="home-hero-line2" id="home-hero-line2"></span>
+          </h1>
+          <!-- placeholder invisible per l'animació del text volador -->
+          <span class="home-hero-brand-placeholder" id="home-hero-brand-placeholder">Ludoforta</span>
+          <p class="home-hero-sub" data-i18n="home_sub">Projecte socioeducatiu a Torreforta que utilitza els jocs de taula com a motor de cohesió i aprenentatge.</p>
+          <button class="home-hero-cta" onclick="document.getElementById('home-info-section').scrollIntoView({behavior:'smooth'})" data-i18n="home_cta">DESCOBREIX MÉS</button>
+        </div>
+        <!-- barra dorada inferior -->
+        <div class="home-hero-bar"></div>
+      </div>
+
+      <!-- ══ "ENS HAS VIST A" ══ -->
+      <div class="home-seen-at" id="home-info-section">
+        <p class="home-seen-label" data-i18n="home_seen_at">ENS HAS VIST A:</p>
+        <div class="home-seen-chips">
+          <span class="home-seen-chip">Valls Juga</span>
+          <span class="home-seen-chip">TGN Juga</span>
+          <span class="home-seen-chip">La Seu d'Urgell</span>
+          <span class="home-seen-chip">Institut Torreforta</span>
+        </div>
+      </div>
+
+      <!-- ══ SOCIAL MÓVIL ══ -->
+      <div class="home-social-mobile">
+        <a id="social-mob-tiktok"    href="#" target="_blank" class="social-icon" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        </a>
+        <a id="social-mob-instagram" href="#" target="_blank" class="social-icon" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a id="social-mob-youtube"   href="#" target="_blank" class="social-icon" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a id="social-mob-x"         href="#" target="_blank" class="social-icon" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.849L1.254 2.25H8.08l4.258 5.626 5.906-5.626zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+
+      <!-- ══ INFO CARDS ══ -->
+      <div class="home-cards-grid">
+        <div class="home-card" id="home-card-que-som" onclick="openInfoCard('que-som')">
+          <div class="home-card-img" id="card-img-que-som"><span>🎲</span></div>
+          <div class="home-card-body">
+            <h3 data-i18n="card_que_som">Què som?</h3>
+            <p class="home-card-text" id="card-text-que-som" data-i18n="card_que_som_sub">Som un grup d'apassionats pels jocs de taula que neix de l'Institut Torreforta.</p>
+          </div>
+        </div>
+        <div class="home-card" id="home-card-que-fem" onclick="openInfoCard('que-fem')">
+          <div class="home-card-img" id="card-img-que-fem"><span>🎯</span></div>
+          <div class="home-card-body">
+            <h3 data-i18n="card_que_fem">Què fem?</h3>
+            <p class="home-card-text" id="card-text-que-fem" data-i18n="card_que_fem_sub">Ens reunim setmanalment per jugar, ensenyar noves mecàniques i col·laborar amb festivals.</p>
+          </div>
+        </div>
+        <div class="home-card" id="home-card-on-participem" onclick="openInfoCard('on-participem')">
+          <div class="home-card-img" id="card-img-on-participem"><span>📍</span></div>
+          <div class="home-card-body">
+            <h3 data-i18n="card_on_participem">Quan i On?</h3>
+            <p class="home-card-text" id="card-text-on-participem" data-i18n="card_on_participem_sub">Tots els dijous a les 17:00h al local de l'Institut.</p>
+          </div>
+        </div>
+        <div class="home-card" id="home-card-historia" onclick="openInfoCard('historia')">
+          <div class="home-card-img" id="card-img-historia"><span>📖</span></div>
+          <div class="home-card-body">
+            <h3 data-i18n="card_historia">La nostra història</h3>
+            <p class="home-card-text" id="card-text-historia" data-i18n="card_historia_sub">Descobreix com va néixer Ludoforta i el camí recorregut.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ FOOTER HOME ══ -->
+      <div class="home-footer" id="home-footer">
+        <div class="home-footer-social">
+          <a id="footer-social-tiktok" href="#" target="_blank" class="footer-social-link" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+            TikTok
+          </a>
+          <a id="footer-social-instagram" href="#" target="_blank" class="footer-social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            Instagram
+          </a>
+          <a id="footer-social-youtube" href="#" target="_blank" class="footer-social-link" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            YouTube
+          </a>
+          <a id="footer-social-x" href="#" target="_blank" class="footer-social-link" aria-label="X">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.849L1.254 2.25H8.08l4.258 5.626 5.906-5.626zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X
+          </a>
+        </div>
+        <div class="home-footer-divider"></div>
+        <p class="home-footer-copy">© 2026 Ludoforta · Fet amb 🎲 a Tarragona.</p>
+      </div>
+      <!-- Sentinel para ocultar iconos del nav al llegar al footer -->
+      <div id="footer-sentinel"></div>
+
+    </div>
+
+    <!-- ── JUEGOS ── -->
+    <div class="section-page" id="section-games">
+      <div class="page-header">
+        <h2><span data-i18n="games_title">Ludoteca</span> <span class="accent">.</span></h2>
+        <p data-i18n="games_subtitle">Todos los juegos disponibles en Ludoforta</p>
+      </div>
+      <div id="games-container" class="games-grid">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- ── PARTIDAS ── -->
+    <div class="section-page" id="section-sessions">
+      <div class="page-header sessions-header">
+        <div>
+          <h2><span data-i18n="sessions_title">Partidas</span> <span class="accent">.</span></h2>
+          <p data-i18n="sessions_subtitle">Organiza o únete a partidas con otros jugadores</p>
+        </div>
+        <button class="btn btn-primary btn-sm new-session-btn" onclick="openCreateSession()" data-i18n="btn_nueva_partida">+ Nueva partida</button>
+      </div>
+      <div id="sessions-container" class="sessions-list">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- ── COMUNIDAD ── -->
+    <div class="section-page" id="section-community">
+      <div class="page-header">
+        <h2><span data-i18n="ranking_title">Ranking</span> <span class="accent">.</span></h2>
+        <p data-i18n="ranking_subtitle">Clasificaciones de la comunidad Ludoforta</p>
+      </div>
+      <div class="ranking-tabs">
+        <button class="ranking-tab active" id="rtab-players" onclick="switchRankingTab('players')"><span data-i18n="ranking_tab_players">Jugadores</span></button>
+        <button class="ranking-tab" id="rtab-games" onclick="switchRankingTab('games')"><span data-i18n="ranking_tab_games">Juegos</span></button>
+      </div>
+      <div id="ranking-container">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+    <!-- ── TABLÓN ── -->
+    <div class="section-page" id="section-tablon">
+      <div class="page-header">
+        <h2><span data-i18n="tablon_title">Tablón</span> <span class="accent">.</span></h2>
+        <p data-i18n="tablon_subtitle">Noticias y comunicados de Ludoforta</p>
+      </div>
+      <div id="tablon-container" class="tablon-list">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <div class="section-page" id="section-profile">
+      <div class="page-header">
+        <h2><span data-i18n="profile_title">Mi perfil</span> <span class="accent">.</span></h2>
+        <p data-i18n="profile_subtitle">Edita tu información personal</p>
+      </div>
+      <div class="profile-card">
+        <div class="avatar-upload">
+          <div class="avatar-preview" id="profile-avatar-preview">😀</div>
+          <div class="avatar-upload-btn">
+            <input type="file" id="profile-avatar-input" accept="image/*" style="display:none" onchange="handleAvatarChange(event)">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('profile-avatar-input').click()"><span data-i18n="btn_cambiar_foto">📷 Cambiar foto</span></button>
+            <span class="upload-hint" data-i18n="hint_foto">JPG, PNG o GIF. Máx 5MB</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="lbl_username">Nombre de usuario</label>
+          <input type="text" id="profile-name" placeholder="@nombredeusuario">
+        </div>
+        <div class="form-group">
+          <label data-i18n="lbl_fullname">Nombre completo</label>
+          <input type="text" id="profile-fullname" placeholder="Tu nombre y apellidos">
+        </div>
+        <div class="form-group">
+          <label data-i18n="lbl_edad">Edad</label>
+          <input type="number" id="profile-age" placeholder="Tu edad" min="1" max="120">
+        </div>
+        <div class="form-group">
+          <label data-i18n="label_email">Correo electrónico</label>
+          <input type="email" id="profile-email" disabled style="opacity:0.5;cursor:not-allowed">
+        </div>
+        <button class="btn btn-primary" onclick="saveProfile()" data-i18n="btn_guardar">Guardar cambios</button>
+      </div>
+    </div>
+
+    <!-- ── ADMIN ── -->
+    <div class="section-page" id="section-admin">
+      <div class="page-header">
+        <h2><span data-i18n="admin_title">Panel Admin</span> <span class="accent">.</span></h2>
+        <p data-i18n="admin_subtitle">Gestión de Ludoforta</p>
+      </div>
+
+      <!-- Logo -->
+      <div class="admin-section">
+        <h3 data-i18n="admin_logo_title">🖼️ Logo de la app</h3>
+        <div class="logo-preview-row">
+          <div class="logo-preview-box" id="admin-logo-preview">🎲</div>
+          <div>
+            <input type="file" id="admin-logo-input" accept="image/*" style="display:none" onchange="handleLogoPreview(event)">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('admin-logo-input').click()" data-i18n="btn_elegir_imagen">📁 Elegir imagen</button>
+            <p class="upload-hint" style="margin-top:8px" data-i18n="admin_logo_hint">Aparece en la barra de navegación y en la pantalla de inicio de sesión.</p>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="adminSaveLogo()" style="margin-top:16px;width:auto" data-i18n="btn_guardar_logo">Guardar logo</button>
+      </div>
+
+      <!-- Favicon -->
+      <div class="admin-section">
+        <h3 data-i18n="admin_favicon_title">🌐 Icono del navegador (favicon)</h3>
+        <p class="upload-hint" style="margin-bottom:16px" data-i18n="admin_favicon_hint">Esta imagen aparece en la pestaña del navegador. Se recomienda un PNG cuadrado de al menos 32×32 px.</p>
+        <div class="logo-preview-row">
+          <div class="favicon-preview-box" id="admin-favicon-preview">🎲</div>
+          <div>
+            <input type="file" id="admin-favicon-input" accept="image/*" style="display:none" onchange="handleFaviconPreview(event)">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('admin-favicon-input').click()" data-i18n="btn_elegir_imagen">📁 Elegir imagen</button>
+            <p class="upload-hint" style="margin-top:8px" data-i18n="admin_favicon_format">PNG, ICO o SVG cuadrado.</p>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="adminSaveFavicon()" style="margin-top:16px;width:auto" data-i18n="btn_guardar_favicon">Guardar favicon</button>
+      </div>
+
+      <!-- Iconos -->
+      <div class="admin-section">
+        <h3 data-i18n="admin_icons_title">🎨 Iconos de la interfaz</h3>
+        <p class="upload-hint" style="margin-bottom:20px" data-i18n="admin_icons_hint">Sube una imagen para cada icono de la aplicación. PNG o SVG recomendado, fondo transparente.</p>
+        <div class="icons-grid" id="icons-grid"></div>
+        <button class="btn btn-primary btn-sm" onclick="adminSaveIcons()" style="margin-top:20px;width:auto" data-i18n="btn_guardar_iconos">💾 Guardar todos los iconos</button>
+      </div>
+
+      <!-- Añadir juego -->
+      <div class="admin-section">
+        <h3 id="admin-add-game-title" data-i18n="admin_add_game">🎮 Añadir juego</h3>
+
+        <!-- Importar colección BGG -->
+        <div class="bgg-import-box">
+          <div class="bgg-import-info">
+            <p style="font-weight:700;font-size:15px;margin-bottom:4px">📦 Importar colección de BoardGameGeek</p>
+            <p style="font-size:13px;color:var(--text2);line-height:1.5">Importa todos los juegos marcados como "owned" en tu cuenta de BGG de una sola vez. Requiere configurar <strong>BGG_USERNAME</strong> y <strong>BGG_PASSWORD</strong> en el Worker.</p>
+          </div>
+          <button class="btn btn-primary" onclick="importarColeccionBGG()" id="btn-import-bgg-col">
+            ⬇️ Importar mi colección BGG
+          </button>
+        </div>
+        <div id="bgg-import-status" style="display:none;margin-bottom:20px;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text2);line-height:1.8"></div>
+
+        <button class="btn btn-bgg" onclick="openModal('modal-bgg')" style="margin-bottom:20px">
+          <img src="https://cf.geekdo-images.com/zH3Er-HGDKpXuCPRaHY56A__thumb/img/ok5T_aldnBQdbCRpSEgR6A0ffJQ=/fit-in/200x150/filters:strip_icc()/pic1657689.jpg" alt="BGG" style="width:20px;height:20px;border-radius:4px;object-fit:cover">
+          <span data-i18n="btn_add_bgg">Añadir desde BoardGameGeek</span>
+        </button>
+        <div class="admin-section-divider" data-i18n="admin_o_manual">o añadir manualmente</div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label data-i18n="admin_game_name">Nombre del juego *</label>
+            <input type="text" id="admin-game-name" placeholder="Ej: Catán, Pandemic...">
+          </div>
+          <div class="form-group">
+            <label data-i18n="admin_game_photo">Foto del juego</label>
+            <input type="file" id="admin-game-img" accept="image/*">
+          </div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <label data-i18n="lbl_players">N.º de jugadores</label>
+            <input type="text" id="admin-game-players" placeholder="Ej: 2-4">
+          </div>
+          <div class="form-group">
+            <label data-i18n="lbl_age">Edad mínima</label>
+            <input type="text" id="admin-game-age" placeholder="Ej: 8+">
+          </div>
+          <div class="form-group">
+            <label data-i18n="lbl_duration">Duración</label>
+            <input type="text" id="admin-game-duration" placeholder="Ej: 30-60 min">
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="lbl_category">Categoría</label>
+          <input type="text" id="admin-game-category" placeholder="Ej: Estrategia, Familiar, Party...">
+        </div>
+        <div class="form-group">
+          <label data-i18n="lbl_desc">Descripción</label>
+          <textarea id="admin-game-desc" rows="3" placeholder="Describe brevemente el juego..."></textarea>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="adminAddGame()" style="width:auto" data-i18n="btn_añadir_juego">Añadir juego</button>
+      </div>
+
+      <!-- Redes sociales -->
+      <div class="admin-section">
+        <h3>🔗 <span data-i18n="admin_social_title">Redes sociales</span></h3>
+        <p class="upload-hint" style="margin-bottom:16px" data-i18n="admin_social_hint">Introduce las URLs de tus redes sociales. Aparecerán en la página de inicio.</p>
+        <div class="form-group">
+          <label>TikTok URL</label>
+          <input type="url" id="admin-social-tiktok" placeholder="https://tiktok.com/@ludoforta">
+        </div>
+        <div class="form-group">
+          <label>Instagram URL</label>
+          <input type="url" id="admin-social-instagram" placeholder="https://instagram.com/ludoforta">
+        </div>
+        <div class="form-group">
+          <label>YouTube URL</label>
+          <input type="url" id="admin-social-youtube" placeholder="https://youtube.com/@ludoforta">
+        </div>
+        <div class="form-group">
+          <label>X (Twitter) URL</label>
+          <input type="url" id="admin-social-x" placeholder="https://x.com/ludoforta">
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="adminSaveSocial()" style="width:auto" data-i18n="btn_guardar_social">💾 Guardar redes sociales</button>
+      </div>
+
+      <!-- Color de acento -->
+      <div class="admin-section">
+        <h3>🎨 Color principal</h3>
+        <p class="upload-hint" style="margin-bottom:16px">Elige el color de acento de toda la web (títulos, botones, destacados).</p>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <input type="color" id="admin-accent-color" value="#f39c12" style="width:56px;height:56px;border:2px solid var(--border);border-radius:10px;cursor:pointer;background:none;padding:4px">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <input type="text" id="admin-accent-hex-input" value="#f39c12" placeholder="#f39c12" style="width:100px;font-family:monospace;font-size:13px" oninput="onHexInput(this.value)">
+              <span style="font-size:12px;color:var(--text2)">Hex personalizado</span>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap" id="accent-presets">
+              <button class="accent-preset" style="background:#f39c12" onclick="setAccentPreset('#f39c12')" title="Naranja dorado"></button>
+              <button class="accent-preset" style="background:#e74c3c" onclick="setAccentPreset('#e74c3c')" title="Rojo"></button>
+              <button class="accent-preset" style="background:#3498db" onclick="setAccentPreset('#3498db')" title="Azul"></button>
+              <button class="accent-preset" style="background:#2ecc71" onclick="setAccentPreset('#2ecc71')" title="Verde"></button>
+              <button class="accent-preset" style="background:#9b59b6" onclick="setAccentPreset('#9b59b6')" title="Morado"></button>
+              <button class="accent-preset" style="background:#1abc9c" onclick="setAccentPreset('#1abc9c')" title="Turquesa"></button>
+              <button class="accent-preset" style="background:#e91e8c" onclick="setAccentPreset('#e91e8c')" title="Rosa"></button>
+              <button class="accent-preset" style="background:#ffffff" onclick="setAccentPreset('#ffffff')" title="Blanco" style="border:1px solid #555"></button>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="adminSaveAccentColor()" style="width:auto;margin-top:14px">💾 Guardar color</button>
+      </div>
+
+      <!-- Texto del hero -->
+      <div class="admin-section">
+        <h3>✏️ Texto del hero (portada)</h3>
+        <p class="upload-hint" style="margin-bottom:16px">El título grande que aparece en la imagen de portada.</p>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>Línea 1</label>
+            <input type="text" id="admin-hero-line1" placeholder="JUGAR ÉS" value="JUGAR ÉS">
+          </div>
+          <div class="form-group">
+            <label>Línea 2</label>
+            <input type="text" id="admin-hero-line2" placeholder="FER BARRI" value="FER BARRI">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="adminSaveHeroText()" style="width:auto">💾 Guardar texto hero</button>
+      </div>
+
+      <!-- Tarjetas de información -->
+      <div class="admin-section">
+        <h3>🃏 <span data-i18n="admin_cards_title">Tarjetas de la página de inicio</span></h3>
+        <p class="upload-hint" style="margin-bottom:16px" data-i18n="admin_cards_hint">Edita el contenido de las 4 tarjetas informativas.</p>
+
+        <!-- Foto de fondo del hero -->
+        <div style="margin-bottom:24px;padding:16px;background:var(--surface2);border-radius:12px;border:1px solid var(--border)">
+          <h4 style="font-size:14px;font-weight:700;margin-bottom:12px">🖼️ Foto de fondo del hero</h4>
+          <div id="hero-bg-preview" style="width:100%;height:120px;border-radius:8px;background:var(--surface);border:1px solid var(--border);margin-bottom:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px">Sin imagen — se muestra fondo oscuro</div>
+          <input type="file" id="hero-bg-input" accept="image/*" style="display:none" onchange="previewHeroBg(this)">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('hero-bg-input').click()">📁 Elegir foto</button>
+            <button class="btn btn-primary btn-sm" onclick="adminSaveHeroBg()">💾 Guardar foto hero</button>
+          </div>
+        </div>
+
+        <div id="admin-cards-list">
+
+          <div class="admin-card-editor">
+            <h4 style="margin-bottom:12px;font-size:14px;font-weight:700">🎲 Què som?</h4>
+            <div class="form-row-2" style="margin-bottom:10px">
+              <div class="form-group"><label>Título (ES)</label><input type="text" id="ace-title-es-que-som" placeholder="Título en castellano..."></div>
+              <div class="form-group"><label>Títol (CA)</label><input type="text" id="ace-title-ca-que-som" placeholder="Títol en català..."></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group"><label>Texto (ES)</label><textarea id="ace-text-es-que-som" rows="4" placeholder="Texto en castellano..."></textarea></div>
+              <div class="form-group"><label>Text (CA)</label><textarea id="ace-text-ca-que-som" rows="4" placeholder="Text en català..."></textarea></div>
+            </div>
+            <div class="form-group">
+              <label>Imagen</label>
+              <div class="ace-img-preview" id="ace-preview-que-som"></div>
+              <input type="file" id="ace-img-que-som" accept="image/*" onchange="previewCardImg('que-som',this)">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="adminSaveCard('que-som')" style="width:auto">💾 Guardar</button>
+          </div>
+
+          <div class="admin-card-editor">
+            <h4 style="margin-bottom:12px;font-size:14px;font-weight:700">🎯 Què fem?</h4>
+            <div class="form-row-2" style="margin-bottom:10px">
+              <div class="form-group"><label>Título (ES)</label><input type="text" id="ace-title-es-que-fem" placeholder="Título en castellano..."></div>
+              <div class="form-group"><label>Títol (CA)</label><input type="text" id="ace-title-ca-que-fem" placeholder="Títol en català..."></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group"><label>Texto (ES)</label><textarea id="ace-text-es-que-fem" rows="4" placeholder="Texto en castellano..."></textarea></div>
+              <div class="form-group"><label>Text (CA)</label><textarea id="ace-text-ca-que-fem" rows="4" placeholder="Text en català..."></textarea></div>
+            </div>
+            <div class="form-group">
+              <label>Imagen</label>
+              <div class="ace-img-preview" id="ace-preview-que-fem"></div>
+              <input type="file" id="ace-img-que-fem" accept="image/*" onchange="previewCardImg('que-fem',this)">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="adminSaveCard('que-fem')" style="width:auto">💾 Guardar</button>
+          </div>
+
+          <div class="admin-card-editor">
+            <h4 style="margin-bottom:12px;font-size:14px;font-weight:700">📍 On participem?</h4>
+            <div class="form-row-2" style="margin-bottom:10px">
+              <div class="form-group"><label>Título (ES)</label><input type="text" id="ace-title-es-on-participem" placeholder="Título en castellano..."></div>
+              <div class="form-group"><label>Títol (CA)</label><input type="text" id="ace-title-ca-on-participem" placeholder="Títol en català..."></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group"><label>Texto (ES)</label><textarea id="ace-text-es-on-participem" rows="4" placeholder="Texto en castellano..."></textarea></div>
+              <div class="form-group"><label>Text (CA)</label><textarea id="ace-text-ca-on-participem" rows="4" placeholder="Text en català..."></textarea></div>
+            </div>
+            <div class="form-group">
+              <label>Imagen</label>
+              <div class="ace-img-preview" id="ace-preview-on-participem"></div>
+              <input type="file" id="ace-img-on-participem" accept="image/*" onchange="previewCardImg('on-participem',this)">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="adminSaveCard('on-participem')" style="width:auto">💾 Guardar</button>
+          </div>
+
+          <div class="admin-card-editor">
+            <h4 style="margin-bottom:12px;font-size:14px;font-weight:700">📖 La nostra història</h4>
+            <div class="form-row-2" style="margin-bottom:10px">
+              <div class="form-group"><label>Título (ES)</label><input type="text" id="ace-title-es-historia" placeholder="Título en castellano..."></div>
+              <div class="form-group"><label>Títol (CA)</label><input type="text" id="ace-title-ca-historia" placeholder="Títol en català..."></div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group"><label>Texto (ES)</label><textarea id="ace-text-es-historia" rows="4" placeholder="Texto en castellano..."></textarea></div>
+              <div class="form-group"><label>Text (CA)</label><textarea id="ace-text-ca-historia" rows="4" placeholder="Text en català..."></textarea></div>
+            </div>
+            <div class="form-group">
+              <label>Imagen</label>
+              <div class="ace-img-preview" id="ace-preview-historia"></div>
+              <input type="file" id="ace-img-historia" accept="image/*" onchange="previewCardImg('historia',this)">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="adminSaveCard('historia')" style="width:auto">💾 Guardar</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Solicitudes de membresía -->
+      <div class="admin-section">
+        <h3 data-i18n="admin_requests_title">📋 Solicitudes de membresía</h3>
+        <div id="admin-requests-container">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <!-- Gestionar usuarios -->
+      <div class="admin-section">
+        <h3 data-i18n="admin_users_title">👥 Gestionar usuarios</h3>
+        <div id="admin-users-container">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ========== MODALS ========== -->
+<div class="modal-overlay" id="modal-session" onclick="handleOverlayClick(event,'modal-session')">
+  <div class="modal">
+    <h3 data-i18n="session_modal_title">Nueva partida</h3>
+    <div class="form-group">
+      <label data-i18n="lbl_juego">Juego</label>
+      <select id="session-game"><option value="" data-i18n-opt="session_select_game">Selecciona un juego...</option></select>
+    </div>
+    <div class="form-group">
+      <label data-i18n="lbl_fecha">Fecha y hora</label>
+      <input type="datetime-local" id="session-date">
+    </div>
+    <div class="form-group">
+      <label data-i18n="lbl_limite">Límite de jugadores</label>
+      <input type="number" id="session-max" min="2" max="20" value="4">
+    </div>
+    <div class="form-group">
+      <label data-i18n="lbl_notas">Descripción (opcional)</label>
+      <textarea id="session-desc" rows="3" placeholder="Notas adicionales..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-session')" data-i18n="btn_cancelar">Cancelar</button>
+      <button class="btn btn-primary" onclick="createSession()" data-i18n="btn_crear_partida">Crear partida</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: votar ganador -->
+<div class="modal-overlay" id="modal-vote-winner" onclick="handleOverlayClick(event,'modal-vote-winner')">
+  <div class="modal">
+    <h3 data-i18n="vote_winner_title">¿Quién ha ganado?</h3>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:20px" data-i18n="vote_winner_sub">Vota al ganador de la partida.</p>
+    <div id="vote-players-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px"></div>
+    <div id="vote-status" style="font-size:13px;color:var(--text2);margin-bottom:16px;min-height:18px"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-vote-winner')" data-i18n="btn_cerrar">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: valorar juego -->
+<div class="modal-overlay" id="modal-rate-game" onclick="handleOverlayClick(event,'modal-rate-game')">
+  <div class="modal">
+    <h3 id="rate-game-title" data-i18n="rate_game_title">Valorar juego</h3>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:20px" data-i18n="rate_game_sub">¿Qué nota le das a este juego?</p>
+    <div class="star-rating-row" id="star-rating-row">
+      <button class="star-btn" data-v="1">★</button>
+      <button class="star-btn" data-v="2">★</button>
+      <button class="star-btn" data-v="3">★</button>
+      <button class="star-btn" data-v="4">★</button>
+      <button class="star-btn" data-v="5">★</button>
+      <button class="star-btn" data-v="6">★</button>
+      <button class="star-btn" data-v="7">★</button>
+      <button class="star-btn" data-v="8">★</button>
+      <button class="star-btn" data-v="9">★</button>
+      <button class="star-btn" data-v="10">★</button>
+    </div>
+    <div id="rate-selected-label" style="text-align:center;color:var(--accent);font-size:24px;font-weight:700;min-height:36px;margin-top:8px"></div>
+    <input type="hidden" id="rate-game-id">
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-rate-game')" data-i18n="btn_cancelar">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitGameRating()" data-i18n="btn_rate_save">Guardar valoración</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal">
+    <h3 id="confirm-title">¿Estás seguro?</h3>
+    <p id="confirm-msg" style="color:var(--text2);margin-bottom:8px"></p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-confirm')" data-i18n="btn_cancelar">Cancelar</button>
+      <button class="btn btn-danger" id="confirm-action-btn" data-i18n="btn_confirmar">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── COMPLETE PROFILE (step 2 after register) ── -->
+<div class="modal-overlay" id="modal-complete-profile">
+  <div class="modal modal-wide">
+    <div class="complete-profile-header">
+      <div class="complete-profile-step" data-i18n="cp_step">Paso 2 de 2</div>
+      <h3 data-i18n="cp_title">Completa tu perfil</h3>
+      <p style="color:var(--text2);font-size:14px;margin-top:4px" data-i18n="cp_subtitle">Cuéntanos un poco más sobre ti</p>
+    </div>
+
+    <!-- Avatar -->
+    <div class="cp-avatar-row">
+      <div class="cp-avatar-preview" id="cp-avatar-preview">😀</div>
+      <div>
+        <input type="file" id="cp-avatar-input" accept="image/*" style="display:none" onchange="handleCpAvatarChange(event)">
+        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('cp-avatar-input').click()" data-i18n="btn_cambiar_foto">📷 Subir foto de perfil</button>
+        <p class="upload-hint" style="margin-top:6px" data-i18n="hint_foto">Opcional — JPG o PNG</p>
+      </div>
+    </div>
+
+    <div class="form-row-2">
+      <div class="form-group">
+        <label data-i18n="lbl_username_req">Nombre de usuario *</label>
+        <input type="text" id="cp-username" placeholder="@nombredeusuario" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label data-i18n="lbl_fullname_req">Nombre completo *</label>
+        <input type="text" id="cp-fullname" placeholder="Tu nombre y apellidos" autocomplete="name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-i18n="lbl_edad_req">Edad *</label>
+      <input type="number" id="cp-age" placeholder="Tu edad" min="1" max="120" style="max-width:160px">
+    </div>
+
+    <!-- Tipo de usuario -->
+    <div class="form-group" style="margin-top:8px">
+      <label data-i18n="lbl_usertype">¿Formas parte de Ludoforta? *</label>
+      <div class="cp-type-options">
+        <label class="cp-type-option" id="cptype-external-label">
+          <input type="radio" name="cp-usertype" value="external" id="cptype-external" onchange="onCpTypeChange(this.value)" checked>
+          <div class="cp-type-card">
+            <span class="cp-type-icon">🌍</span>
+            <span class="cp-type-title" data-i18n="cp_external_title">No, soy externo</span>
+            <span class="cp-type-desc" data-i18n="cp_external_desc">Solo quiero ver la ludoteca y el ranking</span>
+          </div>
+        </label>
+        <label class="cp-type-option" id="cptype-asistente-label">
+          <input type="radio" name="cp-usertype" value="asistente" id="cptype-asistente" onchange="onCpTypeChange(this.value)">
+          <div class="cp-type-card">
+            <span class="cp-type-icon">🎒</span>
+            <span class="cp-type-title" data-i18n="cp_asistente_title">Asistente extraescolar</span>
+            <span class="cp-type-desc" data-i18n="cp_asistente_desc">Asisto a la extraescolar de Ludoforta</span>
+          </div>
+        </label>
+        <label class="cp-type-option" id="cptype-member-label">
+          <input type="radio" name="cp-usertype" value="member" id="cptype-member" onchange="onCpTypeChange(this.value)">
+          <div class="cp-type-card">
+            <span class="cp-type-icon">⭐</span>
+            <span class="cp-type-title" data-i18n="cp_member_title">Miembro</span>
+            <span class="cp-type-desc" data-i18n="cp_member_desc">Soy miembro activo de Ludoforta</span>
+          </div>
+        </label>
+      </div>
+      <div id="cp-request-notice" style="display:none;margin-top:12px;padding:10px 14px;background:rgba(232,184,75,0.1);border:1px solid rgba(232,184,75,0.3);border-radius:8px;font-size:13px;color:var(--text2)">
+        📋 Se enviará una solicitud a los administradores para que aprueben tu acceso. Mientras tanto, tendrás acceso como usuario externo.
+      </div>
+    </div>
+
+    <div id="cp-error" class="error-msg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveCompleteProfile()" data-i18n="btn_start_playing">¡Empezar a jugar!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── INFO CARD MODAL ── -->
+<div class="modal-overlay" id="modal-info-card" onclick="handleOverlayClick(event,'modal-info-card')">
+  <div class="modal modal-wide modal-info-card">
+    <div class="info-card-img-full" id="modal-info-card-img"></div>
+    <div class="info-card-content">
+      <h3 id="modal-info-card-title">—</h3>
+      <p id="modal-info-card-text"></p>
+    </div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-info-card')" data-i18n="btn_cerrar">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── GAME DETAIL ── -->
+<div class="modal-overlay" id="modal-game-detail" onclick="handleOverlayClick(event,'modal-game-detail')">
+  <div class="modal modal-wide modal-game-detail">
+    <div class="game-detail-header" id="gd-header">
+      <div class="game-detail-img" id="gd-img">🎮</div>
+      <div class="game-detail-title-block">
+        <h3 id="gd-name">—</h3>
+        <div class="game-detail-tags" id="gd-tags"></div>
+        <div class="gd-rating-row" id="gd-rating-row" style="display:none">
+          <span class="gd-rating-avg" id="gd-rating-avg">—</span>
+          <span class="gd-rating-stars" id="gd-rating-stars"></span>
+          <span class="gd-rating-count" id="gd-rating-count"></span>
+        </div>
+      </div>
+    </div>
+    <div class="game-detail-stats" id="gd-stats"></div>
+    <p class="game-detail-desc" id="gd-desc"></p>
+    <div class="know-game-row" id="know-game-row">
+      <button class="btn-know" id="btn-know-game" onclick="toggleKnowGame()">
+        <span id="know-game-icon">⭐</span>
+        <span id="know-game-label" data-i18n="lbl_know_game">Me sé este juego</span>
+      </button>
+      <span class="know-count" id="know-count"></span>
+    </div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-game-detail')" data-i18n="btn_cerrar">Cerrar</button>
+      <button class="btn btn-primary" id="btn-rate-from-detail" onclick="rateFromDetail()" style="display:none" data-i18n="btn_rate_game">Valorar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PUBLIC PROFILE ── -->
+<div class="modal-overlay" id="modal-public-profile" onclick="handleOverlayClick(event,'modal-public-profile')">
+  <div class="modal modal-wide">
+    <div class="pub-profile-header">
+      <div class="pub-avatar" id="pub-avatar">?</div>
+      <div class="pub-info">
+        <h3 id="pub-name">—</h3>
+        <p id="pub-fullname" style="color:var(--text2);font-size:14px"></p>
+        <div class="pub-badges" id="pub-badges"></div>
+      </div>
+    </div>
+    <div class="pub-stats-row" id="pub-stats"></div>
+    <div class="pub-games-section">
+      <h4 style="font-size:16px;font-weight:700;margin-bottom:14px" data-i18n="pub_games_title">Juegos que domina</h4>
+      <div class="pub-games-grid" id="pub-games-grid">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+    <div class="modal-actions" style="margin-top:20px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-public-profile')" data-i18n="btn_cerrar">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── BGG SEARCH ── -->
+<div class="modal-overlay" id="modal-bgg" onclick="handleOverlayClick(event,'modal-bgg')">
+  <div class="modal modal-wide modal-bgg">
+    <div class="bgg-header">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <h3 data-i18n="bgg_title">Buscar en BoardGameGeek</h3>
+          <p class="bgg-subtitle" data-i18n="bgg_subtitle">Base de datos con más de 140.000 juegos de mesa</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('bgg-setup-info').classList.toggle('hidden')" style="flex-shrink:0;font-size:12px">⚙️ Cómo configurar</button>
+      </div>
+      <div id="bgg-setup-info" class="hidden" style="margin-top:14px;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text2);line-height:1.7">
+        <strong style="color:var(--text)">Configuración del proxy (5 min, gratis):</strong><br>
+        1. Solicita un token en <a href="https://boardgamegeek.com/applications" target="_blank" style="color:var(--accent)">boardgamegeek.com/applications</a> (app no-comercial). Puede tardar días en aprobarse.<br>
+        2. Ve a <a href="https://workers.cloudflare.com" target="_blank" style="color:var(--accent)">workers.cloudflare.com</a> → cuenta gratis → New Worker → pega el código que hay en app.js (línea ~930).<br>
+        3. Pon tu token BGG donde dice <code>TU_TOKEN_AQUI</code> → Deploy.<br>
+        4. Copia la URL del Worker y ponla en la variable <code>BGG_WORKER_URL</code> de app.js.
+      </div>
+    </div>
+    <div class="bgg-search-row">
+      <input type="text" id="bgg-query" placeholder="Nombre del juego..." autocomplete="off"
+        oninput="debounceBGGSearch(this.value)"
+        onkeydown="if(event.key==='Enter')searchBGG()">
+      <button class="btn btn-primary" onclick="searchBGG()" data-i18n="btn_buscar">Buscar</button>
+    </div>
+    <div id="bgg-status" class="bgg-status"></div>
+    <div id="bgg-results" class="bgg-results"></div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-bgg')" data-i18n="btn_cerrar">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── NUEVO ANUNCIO ── -->
+<div class="modal-overlay" id="modal-anuncio" onclick="handleOverlayClick(event,'modal-anuncio')">
+  <div class="modal modal-wide">
+    <h3 style="font-size:20px;font-weight:800;margin-bottom:20px" data-i18n="tablon_titulo_modal">📢 Nuevo anuncio</h3>
+    <div class="form-group">
+      <label data-i18n="tablon_tipo_label">Tipo</label>
+      <div class="anuncio-tipo-row" id="anuncio-tipo-row">
+        <button class="tipo-btn active" data-tipo="noticia"  onclick="selectTipo('noticia')" data-i18n="tablon_tipo_noticia_pub">🌍 Noticia pública</button>
+        <button class="tipo-btn" data-tipo="miembros" onclick="selectTipo('miembros')" data-i18n="tablon_tipo_miembros">⭐ Solo miembros</button>
+      </div>
+      <p id="anuncio-tipo-hint" style="font-size:12px;color:var(--text3);margin-top:8px">
+        Visible para todo el mundo. No se envía por email.
+      </p>
+    </div>
+    <div class="form-group">
+      <label data-i18n="tablon_titulo_label">Título *</label>
+      <input type="text" id="anuncio-titulo" data-i18n-ph="tablon_titulo_ph" placeholder="Título del anuncio...">
+    </div>
+    <div class="form-group">
+      <label data-i18n="tablon_contenido_label">Contenido *</label>
+      <textarea id="anuncio-contenido" rows="5" data-i18n-ph="tablon_contenido_ph" placeholder="Escribe el contenido del anuncio..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-anuncio')" data-i18n="btn_cancelar">Cancelar</button>
+      <button class="btn btn-primary" onclick="publicarAnuncio()" data-i18n="tablon_publicar">📢 Publicar</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="app.js?v=20260317d"></script>
+</body>
+</html>
