@@ -2146,18 +2146,25 @@ main {
   transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 .settings-btn:hover { background: var(--surface2); color: var(--text); border-color: var(--accent); }
-.settings-btn svg { pointer-events: none; }
+.settings-btn svg { 
+  pointer-events: none; 
+  width: 20px !important;
+  height: 20px !important;
+  stroke-width: 2.5;
+}
 
 .settings-menu {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px;
-  min-width: 200px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  min-width: 220px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
   z-index: 500;
   display: none;
   flex-direction: column;
@@ -2262,13 +2269,7 @@ main {
 [data-theme="light"] .settings-btn:hover { background: #eeede9; }
 [data-theme="light"] .social-icon { background: rgba(0, 0, 0, 0.05); color: #333333; border-color: #d8d6d0; }
 [data-theme="light"] .social-icon:hover { background: rgba(0, 0, 0, 0.1); color: #000000; border-color: var(--accent); }
-[data-theme="light"] .settings-menu { 
-  background: color-mix(in srgb, #ffffff 85%, transparent); 
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-color: #d8d6d0; 
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12); 
-}
+[data-theme="light"] .settings-menu { border-color: #d8d6d0; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
 [data-theme="light"] .settings-section-label { color: #9e9a90; }
 [data-theme="light"] .settings-lang-btn { background: #eeede9; color: #6b6760; border-color: #d8d6d0; }
 [data-theme="light"] .settings-lang-btn.active { background: var(--accent); color: var(--accent-text, #121212) !important; border-color: var(--accent); }
