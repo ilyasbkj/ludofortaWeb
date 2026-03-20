@@ -1035,7 +1035,7 @@ window.toggleSettingsMenu = function() {
     const lang = localStorage.getItem('ludoforta_lang') || 'es';
     document.getElementById('slang-es')?.classList.toggle('active', lang === 'es');
     document.getElementById('slang-ca')?.classList.toggle('active', lang === 'ca');
-    const theme = localStorage.getItem('ludoforta_theme') || 'dark';
+    const theme = localStorage.getItem('ludoforta_theme') || 'light';
     document.getElementById('theme-dark')?.classList.toggle('active', theme === 'dark');
     document.getElementById('theme-light')?.classList.toggle('active', theme === 'light');
     setTimeout(() => document.addEventListener('click', closeSettingsOnClickOutside), 10);
@@ -1079,7 +1079,7 @@ function applyTheme(theme) {
   }
 }
 // Apply saved theme on load
-applyTheme(localStorage.getItem('ludoforta_theme') || 'dark');
+applyTheme(localStorage.getItem('ludoforta_theme') || 'light');
 // Apply cached accent color instantly to avoid flash
 const cachedAccent = localStorage.getItem('ludoforta_accent');
 if (cachedAccent) applyAccentColor(cachedAccent);
