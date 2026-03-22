@@ -300,7 +300,7 @@ nav {
 .nav-social-icons.visible .social-icon:nth-child(2) { transition-delay: 0.15s; }
 .nav-social-icons.visible .social-icon:nth-child(3) { transition-delay: 0.23s; }
 .nav-social-icons.visible .social-icon:nth-child(4) { transition-delay: 0.31s; }
-.social-icon svg { width: 18px; height: 18px; display: block; fill: currentColor; }
+.social-icon svg { width: 18px; height: 18px; display: block; }
 .social-icon:hover { color: var(--accent); border-color: var(--accent); background: rgba(0, 0, 0, 0.08); }
 
 /* En móvil: ocultar iconos sociales del nav — ya están en el footer */
@@ -1789,9 +1789,6 @@ main {
   width: 20px; 
   height: 20px; 
   display: block; 
-  fill: currentColor; 
-  stroke: currentColor; 
-  stroke-width: 2.5;
 }
 .social-icon:hover { color: var(--text); border-color: #b3b3b3; }
 
@@ -2272,7 +2269,7 @@ main {
 [data-theme="light"] .mobile-nav-link { color: #333333; }
 [data-theme="light"] .mobile-nav-link:hover { background: rgba(0, 0, 0, 0.05); color: #000000; }
 [data-theme="light"] .hamburger { border-color: #d8d6d0; }
-[data-theme="light"] .settings-btn { border-color: #d8d6d0; color: #6b6760; }
+[data-theme="light"] .settings-btn { border-color: #d8d6d0; color: #1a1b1e; }
 [data-theme="light"] .settings-btn:hover { background: #eeede9; }
 [data-theme="light"] .social-icon { background: rgba(0, 0, 0, 0.05); color: #333333; border-color: #d8d6d0; }
 [data-theme="light"] .social-icon:hover { background: rgba(0, 0, 0, 0.1); color: #000000; border-color: var(--accent); }
